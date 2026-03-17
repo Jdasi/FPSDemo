@@ -57,7 +57,7 @@ void AFPSDemoCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 		// Looking/Aiming
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AFPSDemoCharacter::LookInput);
-		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AFPSDemoCharacter::LookInput);
+		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AFPSDemoCharacter::MouseLookInput);
 
 		// Weapons
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &AFPSDemoCharacter::DoFire);
@@ -87,7 +87,15 @@ void AFPSDemoCharacter::LookInput(const FInputActionValue& Value)
 
 	// pass the axis values to the aim input
 	DoAim(LookAxisVector.X, LookAxisVector.Y);
+}
 
+void AFPSDemoCharacter::MouseLookInput(const FInputActionValue& Value)
+{
+	// get the Vector2D look axis
+	FVector2D LookAxisVector = Value.Get<FVector2D>() * 0.5f;
+
+	// pass the axis values to the aim input
+	DoAim(LookAxisVector.X, LookAxisVector.Y);
 }
 
 void AFPSDemoCharacter::DoAim(float Yaw, float Pitch)
